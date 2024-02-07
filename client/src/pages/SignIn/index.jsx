@@ -1,7 +1,11 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
 
 const SignIn = () => {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
     return (
         <main className="main bg-dark">
             <section className="sign-in-content">
@@ -10,11 +14,21 @@ const SignIn = () => {
                 <form>
                     <div className="input-wrapper">
                         <label htmlFor="username">Username</label>
-                        <input type="text" id="username" />
+                        <input 
+                        type="text" 
+                        id="username" 
+                        value={username}
+                        onChange={(e) => {setUsername(e.target.value)}}
+                        />
                     </div>
                     <div className="input-wrapper">
                         <label htmlFor="password">Password</label>
-                        <input type="password" id="password" />
+                        <input 
+                        type="password" 
+                        id="password"
+                        value={password}
+                        onChange={(e) => {setPassword(e.target.value)}}
+                        />
                     </div>
                     <div className="input-remember">
                         <input type="checkbox" id="remember me" />
