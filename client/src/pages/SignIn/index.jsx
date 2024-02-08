@@ -9,7 +9,7 @@ const SignIn = () => {
     const dispatch = useDispatch();
     const [email, setemail] = useState('');
     const [password, setPassword] = useState('');
-    const [userLogin, { data, isLoading, error }] = useUserLoginMutation();
+    const [userLogin, { isLoading, error }] = useUserLoginMutation();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -17,8 +17,9 @@ const SignIn = () => {
             alert("Veillez remplir tous les champs du formulaire.");
         } else {
             try {
-                const response = await userLogin({email, password});
+                const response = await userLogin({email, password}).unwrap();
                 console.log(response);
+                const token = response.body.token;
             } catch(err) {
                 console.log(err.message);
             }
@@ -55,8 +56,12 @@ const SignIn = () => {
                         <input type="checkbox" id="remember me" />
                         <label htmlFor="remember-me">Remember me</label>
                     </div>
+                    {
+                    isLoading ? <p>Loading..</p> :
                     <button className="sign-in-button">Sign In</button>
+                    }
                 </form>
+                {error && <p>Une erreur est survenue.</p>}
             </section>
         </main>
     );
