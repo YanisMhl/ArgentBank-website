@@ -1,42 +1,45 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Account from "../../components/Account";
 import { useUserProfileMutation } from "../../features/userAuth/userAuthApi";
+import { setUser } from "../../features/user/userSlice";
 
 const User = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { token, firstName, lastName, userName } = useSelector((state) => state.user);
+  const { token, userName } = useSelector((state) => state.user);
   const [userProfile, { isLoading, error }] = useUserProfileMutation();
 
   const fetchUser = async () => {
     try {
       const response = await userProfile({ token }).unwrap();
-      console.log(response.body);
+      dispatch(setUser(response.body));
     } catch (err) {
       console.log(err.message);
     }
   };
-
   useEffect(() => {
     fetchUser();
   }, []);
 
   useEffect(() => {
-    console.log("ici");
     if (!token) {
-      console.log("if");
       navigate("/");
     }
   }, [token]);
   return (
     <main className="main bg-dark">
       <div className="header">
-        <h1>
-          Welcome back
-          <br />
-          user !
-        </h1>
+        {userName ? (
+          <h1>
+            Welcome back
+            <br />
+            {userName}
+          </h1>
+        ) : (
+          <h1>Loading...</h1>
+        )}
         <button className="edit-button">Edit Name</button>
       </div>
       <h2 className="sr-only">Accounts</h2>

@@ -5,6 +5,9 @@ const initialState = {
     firstName: "",
     lastName: "",
     userName: "",
+    createdAt: "",
+    updatedAt: "",
+    id: "",
     token: ""
 }
 
@@ -13,7 +16,7 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         setUser(state, action) {
-            state = action.payload;
+            return {...state, ...action.payload};
         },
         setUsername(state, action) {
             state.userName = action.payload;
