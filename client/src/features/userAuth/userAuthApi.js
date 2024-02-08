@@ -11,8 +11,18 @@ export const userAuth = createApi({
                 method: 'POST',
                 body: { "email": email, "password": password }
             })
+        }),
+        userProfile: builder.mutation({
+            query: ({ token }) => ({
+                url: 'user/profile',
+                method: 'POST',
+                headers : {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                }
+            })
         })
     })
 });
 
-export const { useUserLoginMutation } = userAuth;
+export const { useUserLoginMutation, useUserProfileMutation } = userAuth;
