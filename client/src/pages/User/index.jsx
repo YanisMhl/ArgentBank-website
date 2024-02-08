@@ -8,7 +8,7 @@ import { setUser } from "../../features/user/userSlice";
 const User = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { token, userName } = useSelector((state) => state.user);
+  const { token, firstName, lastName } = useSelector((state) => state.user);
   const [userProfile, { isLoading, error }] = useUserProfileMutation();
 
   const fetchUser = async () => {
@@ -31,11 +31,11 @@ const User = () => {
   return (
     <main className="main bg-dark">
       <div className="header">
-        {userName ? (
+        {firstName ? (
           <h1>
             Welcome back
             <br />
-            {userName}
+            {`${firstName} ${lastName}`}
           </h1>
         ) : (
           <h1>Loading...</h1>
