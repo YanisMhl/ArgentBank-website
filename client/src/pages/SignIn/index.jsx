@@ -1,15 +1,25 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { setUser } from "../../features/user/userSlice";
-import { useUserLoginMutation } from "../../features/userAuth/userAuth";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setToken, setUser } from "../../features/user/userSlice";
+import { useUserLoginMutation } from "../../features/userAuth/userAuthApi";
+import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
+    const token = useSelector(state => state.user.token);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [email, setemail] = useState('');
     const [password, setPassword] = useState('');
     const [userLogin, { isLoading, error }] = useUserLoginMutation();
+
+
+    useEffect(() => {
+        if (token) {
+            navigate('/user');
+        }
+    }, [token]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -19,7 +29,7 @@ const SignIn = () => {
             try {
                 const response = await userLogin({email, password}).unwrap();
                 console.log(response);
-                const token = response.body.token;
+                dispatch(setToken(response.body.token));
             } catch(err) {
                 console.log(err.message);
             }
