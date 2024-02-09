@@ -2,14 +2,15 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Account from "../../components/Account";
-import { useUserProfileMutation } from "../../features/userAuth/userAuthApi";
+import { useUserProfileMutation, useUsernameEditMutation } from "../../features/userAuth/userAuthApi";
 import { setUser } from "../../features/user/userSlice";
 
 const User = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { token, firstName, lastName, userName } = useSelector((state) => state.user);
-  const [userProfile, { isLoading, error }] = useUserProfileMutation();
+  const [userProfile, { isLoading: profileLoading, error: profileError }] = useUserProfileMutation();
+  const [updateUsername, { isLoading: usernameEditLoading, error: usernameEditError }] = useUsernameEditMutation();
   const [editing, setEditing] = useState(false);
   const [userField, setUserField] = useState('');
 
@@ -17,7 +18,7 @@ const User = () => {
     try {
       const response = await userProfile({ token }).unwrap();
       dispatch(setUser(response.body));
-    } catch (err) {
+    } catch(err) {
       console.log(err.message);
     }
   };
@@ -38,8 +39,20 @@ const User = () => {
     }
   }, [editing]);
 
-  const handleEditForm = (e) => {
+  const handleEditForm = async (e, newUsername) => {
     e.preventDefault();
+    if (!newUsername) {
+      console.log("Veillez mettre un nouveau username.");
+    } else {
+      try {
+        console.log(typeof(newUsername));
+        console.log(newUsername);
+        const response = await updateUsername({newUsername, token}).unwrap();
+        console.log(response);
+      } catch(err) {
+        console.log(err.message);
+      }
+    }
   }
 
   return (
@@ -56,7 +69,7 @@ const User = () => {
         )}
         { !editing ?
           <button className="edit-button" onClick={() => setEditing(true)}>Edit Name</button> :
-          <form onSubmit={(e) => handleEditForm(e)}>
+          <form onSubmit={(e) => handleEditForm(e, userField)}>
             <div className="edit-input">
               <label htmlFor="username">User name:</label>
               <input type="text" id="username" value={userField} onChange={(e) => setUserField(e.target.value)} />
@@ -70,7 +83,7 @@ const User = () => {
               <input type="text" id="lastname" value={lastName} disabled />
             </div>
             <div className="edit-btns">
-              <button className="edit-button" type="submit" onClick={() => setEditing(false)}>Save</button>
+              <button className="edit-button" type="submit" /*onClick={() => setEditing(false)}*/>Save</button>
               <button className="edit-button" onClick={() => setEditing(false)}>Cancel</button>
             </div>
           </form>

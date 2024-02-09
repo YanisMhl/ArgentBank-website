@@ -21,8 +21,19 @@ export const userAuth = createApi({
                     "Content-Type": "application/json"
                 }
             })
+        }),
+        usernameEdit: builder.mutation({
+            query: ({ newUsername, token }) => ({
+                url: 'user/profile',
+                method: 'PUT',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                },
+                body: { "userName": newUsername }
+            })
         })
     })
 });
 
-export const { useUserLoginMutation, useUserProfileMutation } = userAuth;
+export const { useUserLoginMutation, useUserProfileMutation, useUsernameEditMutation } = userAuth;
