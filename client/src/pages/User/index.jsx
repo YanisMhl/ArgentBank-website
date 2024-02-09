@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Account from "../../components/Account";
@@ -8,8 +8,10 @@ import { setUser } from "../../features/user/userSlice";
 const User = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { token, firstName, lastName } = useSelector((state) => state.user);
+  const { token, firstName, lastName, userName } = useSelector((state) => state.user);
   const [userProfile, { isLoading, error }] = useUserProfileMutation();
+  const [editing, setEditing] = useState(false);
+  const [userField, setUserField] = useState('');
 
   const fetchUser = async () => {
     try {
@@ -19,6 +21,7 @@ const User = () => {
       console.log(err.message);
     }
   };
+
   useEffect(() => {
     fetchUser();
   }, []);
@@ -28,6 +31,17 @@ const User = () => {
       navigate("/");
     }
   }, [token]);
+
+  useEffect(() => {
+    if (editing) {
+      setUserField(userName);
+    }
+  }, [editing]);
+
+  const handleEditForm = (e) => {
+    e.preventDefault();
+  }
+
   return (
     <main className="main bg-dark">
       <div className="header">
@@ -40,7 +54,27 @@ const User = () => {
         ) : (
           <h1>Loading...</h1>
         )}
-        <button className="edit-button">Edit Name</button>
+        { !editing ?
+          <button className="edit-button" onClick={() => setEditing(true)}>Edit Name</button> :
+          <form onSubmit={(e) => handleEditForm(e)}>
+            <div className="edit-input">
+              <label htmlFor="username">User name:</label>
+              <input type="text" id="username" value={userField} onChange={(e) => setUserField(e.target.value)} />
+            </div>
+            <div className="edit-input">
+              <label htmlFor="firstname">First name:</label>
+              <input type="text" id="firstname" value={firstName} disabled />
+            </div>
+            <div className="edit-input">
+              <label htmlFor="lastname">Last name:</label>
+              <input type="text" id="lastname" value={lastName} disabled />
+            </div>
+            <div className="edit-btns">
+              <button className="edit-button" type="submit" onClick={() => setEditing(false)}>Save</button>
+              <button className="edit-button" onClick={() => setEditing(false)}>Cancel</button>
+            </div>
+          </form>
+        }
       </div>
       <h2 className="sr-only">Accounts</h2>
       <Account
