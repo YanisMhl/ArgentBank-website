@@ -2,23 +2,27 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Account from "../../components/Account";
-import { useUserProfileMutation, useUsernameEditMutation } from "../../features/userAuth/userAuthApi";
-import { setUser } from "../../features/user/userSlice";
+import {
+  useUserProfileMutation,
+  useUsernameEditMutation,
+} from "../../features/userAuth/userAuthApi";
+import { setUser, setUsername } from "../../features/user/userSlice";
 
 const User = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [editing, setEditing] = useState(false);
+  const [userField, setUserField] = useState("");
   const { token, firstName, lastName, userName } = useSelector((state) => state.user);
   const [userProfile, { isLoading: profileLoading, error: profileError }] = useUserProfileMutation();
   const [updateUsername, { isLoading: usernameEditLoading, error: usernameEditError }] = useUsernameEditMutation();
-  const [editing, setEditing] = useState(false);
-  const [userField, setUserField] = useState('');
+
 
   const fetchUser = async () => {
     try {
       const response = await userProfile({ token }).unwrap();
       dispatch(setUser(response.body));
-    } catch(err) {
+    } catch (err) {
       console.log(err.message);
     }
   };
@@ -45,34 +49,42 @@ const User = () => {
       console.log("Veillez mettre un nouveau username.");
     } else {
       try {
-        console.log(typeof(newUsername));
-        console.log(newUsername);
-        const response = await updateUsername({newUsername, token}).unwrap();
+        const response = await updateUsername({ newUsername, token }).unwrap();
         console.log(response);
-      } catch(err) {
+        dispatch(setUsername(newUsername));
+        setEditing(false);
+      } catch (err) {
         console.log(err.message);
       }
     }
-  }
+  };
 
   return (
     <main className="main bg-dark">
       <div className="header">
-        {firstName ? (
-          <h1>
-            Welcome back
-            <br />
-            {`${firstName} ${lastName}`}
-          </h1>
+        {
+          profileError ?
+          <h1>An error occured : {profileError.message}</h1> :
+          profileLoading ?
+          <h1>Loading...</h1>:
+          <h1>Welcome back <br />{`${firstName} ${lastName}`}</h1>
+        }
+        {!editing ? (
+          <button className="edit-button" onClick={() => setEditing(true)}>
+            Edit Name
+          </button>
         ) : (
-          <h1>Loading...</h1>
-        )}
-        { !editing ?
-          <button className="edit-button" onClick={() => setEditing(true)}>Edit Name</button> :
           <form onSubmit={(e) => handleEditForm(e, userField)}>
+            {usernameEditLoading && <p>Saving changes...</p>}
+            {usernameEditError && <p>An error occured : {usernameEditError.message}</p>}
             <div className="edit-input">
               <label htmlFor="username">User name:</label>
-              <input type="text" id="username" value={userField} onChange={(e) => setUserField(e.target.value)} />
+              <input
+                type="text"
+                id="username"
+                value={userField}
+                onChange={(e) => setUserField(e.target.value)}
+              />
             </div>
             <div className="edit-input">
               <label htmlFor="firstname">First name:</label>
@@ -83,11 +95,17 @@ const User = () => {
               <input type="text" id="lastname" value={lastName} disabled />
             </div>
             <div className="edit-btns">
-              <button className="edit-button" type="submit" /*onClick={() => setEditing(false)}*/>Save</button>
-              <button className="edit-button" onClick={() => setEditing(false)}>Cancel</button>
+              <button
+                className="edit-button"
+                type="submit">
+                Save
+              </button>
+              <button className="edit-button" onClick={() => setEditing(false)}>
+                Cancel
+              </button>
             </div>
           </form>
-        }
+        )}
       </div>
       <h2 className="sr-only">Accounts</h2>
       <Account
