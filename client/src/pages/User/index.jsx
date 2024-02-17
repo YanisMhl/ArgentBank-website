@@ -28,12 +28,10 @@ const User = () => {
   };
 
   useEffect(() => {
-    fetchUser();
-  }, []);
-
-  useEffect(() => {
     if (!token) {
       navigate("/");
+    } else {
+      fetchUser();
     }
   }, [token]);
 
