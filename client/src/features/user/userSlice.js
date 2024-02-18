@@ -4,11 +4,11 @@ const initialState = {
     email: "",
     firstName: "",
     lastName: "",
-    userName: "",
+    userName: localStorage.getItem("userName") ? localStorage.getItem("userName") : "",
     createdAt: "",
     updatedAt: "",
     id: "",
-    token: ""
+    token: localStorage.getItem("token") ? localStorage.getItem("token") : ""
 }
 
 const userSlice = createSlice({

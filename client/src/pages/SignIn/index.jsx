@@ -7,16 +7,21 @@ import { useUserLoginMutation } from "../../features/userAuth/userAuthApi";
 import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
-    const token = useSelector(state => state.user.token);
+    const { token, userName } = useSelector(state => state.user);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [email, setemail] = useState('');
     const [password, setPassword] = useState('');
+    const [rememberMe, setRememberMe] = useState(false);
     const [userLogin, { isLoading, error }] = useUserLoginMutation();
 
 
     useEffect(() => {
         if (token) {
+            if (rememberMe) { 
+                localStorage.setItem("token", token);
+                localStorage.setItem("userName", userName);
+            };
             navigate('/user');
         }
     }, [token]);
@@ -63,7 +68,7 @@ const SignIn = () => {
                         />
                     </div>
                     <div className="input-remember">
-                        <input type="checkbox" id="remember me" />
+                        <input type="checkbox" id="remember me" onClick={() => setRememberMe(!rememberMe)} />
                         <label htmlFor="remember-me">Remember me</label>
                     </div>
                     {
