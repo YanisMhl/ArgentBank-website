@@ -11,6 +11,10 @@
     box-sizing: border-box;
     text-align: left;
     margin-bottom: 2rem;
+
+    @include global-mobile {
+        flex-direction: row;
+    }
 }
 
 .account-amount {
@@ -33,4 +37,9 @@
 .account-content-wrapper {
     width: 100%;
     flex: 1;
+    .cta {
+        @include global-mobile {
+            flex: 0;
+        }
+    }
 }
