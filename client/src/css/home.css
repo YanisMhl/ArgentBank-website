@@ -44,15 +44,22 @@ body {
 .main-nav {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
   padding: 5px 20px;
 }
-.main-nav p, .main-nav span {
+.main-nav a, .main-nav p, .main-nav span {
   font-weight: bold;
   color: #2c3e50;
+  cursor: pointer;
 }
-.main-nav p .router-link-exact-active, .main-nav span .router-link-exact-active {
+.main-nav a .router-link-exact-active, .main-nav p .router-link-exact-active, .main-nav span .router-link-exact-active {
   color: #42b983;
+}
+.main-nav a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .main-nav-item {
@@ -80,7 +87,7 @@ body {
 .profile-container .profile {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 10px;
 }
 
 .feature-icon {

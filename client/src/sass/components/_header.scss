@@ -1,23 +1,30 @@
 .main-nav {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: center;
     padding: 5px 20px;
 
-    p, span {
+    a, p, span {
         font-weight: bold;
         color: #2c3e50;
+        cursor: pointer;
 
         .router-link-exact-active {
-            color: #42b983; //utiliser cette classe dans le react !
+            color: #42b983;
         }
+    }
+
+    a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
     }
 }
 
 .main-nav-item {
     text-decoration: none;
     margin-right: 0.5rem;
-
     &:hover {
         text-decoration: underline;
     }
@@ -39,6 +46,6 @@
     .profile {
         display: flex;
         align-items: center;
-        gap: 5px;
+        gap: 10px;
     }
 }

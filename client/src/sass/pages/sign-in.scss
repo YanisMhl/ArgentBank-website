@@ -1,8 +1,13 @@
 .sign-in-button {
-    color: #222;
-    font-size: 1.25rem;
+    display: block;
+    width: 100%;
+    padding: 8px;
+    font-size: 1.1rem;
     font-weight: bold;
-    margin-bottom: 0.5rem;
+    border-color: #00bc77;
+    background-color: #00bc77;
+    color: #fff;
+    cursor: pointer;
 }
 
 .sign-in-content {

@@ -36,8 +36,8 @@ const Header = () => {
                     </div>
                 </div>
                 :
-                <Link to="/sign-in">
-                    <FontAwesomeIcon icon={faUserCircle} />
+                <Link className='main-nav-item' to="/sign-in">
+                    <FontAwesomeIcon icon={faUserCircle} className='fa-xl' />
                     Sign In
                 </Link> 
                 }
