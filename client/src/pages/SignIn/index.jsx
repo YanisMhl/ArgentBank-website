@@ -21,6 +21,7 @@ const SignIn = () => {
             if (rememberMe) { 
                 localStorage.setItem("token", token);
                 localStorage.setItem("userName", userName);
+                localStorage.setItem("rememberMe", true);
             };
             navigate('/user');
         }

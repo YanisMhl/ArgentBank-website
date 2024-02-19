@@ -51,6 +51,9 @@ const User = () => {
         console.log(response);
         dispatch(setUsername(newUsername));
         setEditing(false);
+        if (localStorage.getItem("rememberMe")) {
+          localStorage.setItem("userName", newUsername);
+        }
       } catch (err) {
         console.log(err.message);
       }

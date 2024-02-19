@@ -31,6 +31,7 @@ const Header = () => {
                         <FontAwesomeIcon icon={faRightFromBracket} className='fa-xl'/>
                         <span onClick={() => {
                             dispatch(logout());
+                            localStorage.clear();
                         }}>Sign Out</span>
                     </div>
                 </div>
