@@ -5,8 +5,6 @@ import { Provider } from "react-redux";
 
 import { store } from "./app/store";
 
-import "./css/main.css";
-
 import Header from './components/Header/index.jsx';
 import Footer from './components/Footer/index.jsx';
 

@@ -1,10 +1,10 @@
 .main-nav {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end;
     padding: 5px 20px;
 
-    a {
+    p, span {
         font-weight: bold;
         color: #2c3e50;
 
@@ -31,4 +31,14 @@
 .main-nav-logo-image {
     max-width: 100%;
     width: 200px;
+}
+
+.profile-container {
+    display: flex;
+    gap: 20px;
+    .profile {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
 }

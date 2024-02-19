@@ -8,6 +8,8 @@ import {
 } from "../../features/userAuth/userAuthApi";
 import { setUser, setUsername } from "../../features/user/userSlice";
 
+import "../../css/user.css";
+
 const User = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();

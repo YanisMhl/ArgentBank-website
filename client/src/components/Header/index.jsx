@@ -20,7 +20,7 @@ const Header = () => {
     const { token, userName } = useSelector(state => state.user);
     return (
         <nav className="main-nav">
-            <Link to="/"><img src={logo} alt='logo argent bank'/></Link>
+            <Link to="/"><img className='main-nav-logo-image' src={logo} alt='logo argent bank'/></Link>
             <h1 className='sr-only'>Argent Bank</h1>
             <div>
                 {

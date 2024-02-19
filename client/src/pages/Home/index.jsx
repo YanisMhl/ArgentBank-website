@@ -3,6 +3,8 @@ import chatIcon from "../../assets/icon-chat.png";
 import moneyIcon from "../../assets/icon-money.png";
 import securityIcon from "../../assets/icon-security.png";
 
+import "../../css/home.css";
+
 const Home = () => {
     return (
         <main>
