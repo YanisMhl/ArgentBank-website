@@ -1,0 +1,6 @@
+@mixin global-mobile {
+    @media screen and (min-width: 920px) 
+    {
+        @content;
+    }
+}
